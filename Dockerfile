@@ -1,14 +1,19 @@
-# 1. Start with a base OS that has Java 17/21 installed
-FROM eclipse-temurin:21-jdk-alpine
-
-# 2. Create a folder inside the container
+# --- Stage 1: Build the JAR ---
+FROM maven:3.9-eclipse-temurin-17-alpine AS build
 WORKDIR /app
 
-# 3. Copy your compiled JAR file from your computer to the container
-COPY target/atomicbank-0.0.1-SNAPSHOT.jar app.jar
+# Copy the project files
+COPY . .
 
-# 4. Tell the container to listen on port 8080
+# Build the application (Skipping tests to save time)
+RUN mvn clean package -DskipTests
+
+# --- Stage 2: Run the JAR ---
+FROM eclipse-temurin:17-jdk-alpine
+WORKDIR /app
+
+# Copy the built JAR from Stage 1
+COPY --from=build /app/target/*.jar app.jar
+
 EXPOSE 8080
-
-# 5. The command to run when the container starts
 ENTRYPOINT ["java", "-jar", "app.jar"]

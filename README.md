@@ -18,4 +18,4 @@ A high-performance, concurrency-safe banking REST API built with Spring Boot. De
 ## ⚡ How to Run
 1. **Clone the repo**
    ```bash
-   git clone [https://github.com/Rijul796/AtomicBank.git]
+   git clone (https://github.com/Rijul796/Atomic_Bank.git)

@@ -37,13 +37,16 @@ public class DataSeeder {
     private void createUser(UserRepository userRepo, AccountRepository accountRepo, String username, BigDecimal balance) {
         User user = new User();
         user.setUsername(username);
-        user.setPassword("password123"); // Sets the correct password
-        userRepo.save(user);
+        user.setPassword("password123");
+        user = userRepo.save(user); // Save first to generate the ID!
 
         Account account = new Account();
         account.setUser(user);
         account.setAccountNumber("ACC-" + username.toUpperCase());
         account.setBalance(balance);
         accountRepo.save(account);
+
+        // Print the real ID to the Render Logs!
+        System.out.println("✅ Created " + username + " with REAL ID: " + user.getId());
     }
 }
